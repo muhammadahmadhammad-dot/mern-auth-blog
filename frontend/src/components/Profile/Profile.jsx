@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import UserContext from "../../context/UserContext";
 
 const Profile = () => {
+  const {setIsAuthenticated,setAuthUser} = useContext(UserContext)
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const logout = async () => {
@@ -20,6 +22,9 @@ const Profile = () => {
       }
       setUser(null);
       localStorage.removeItem("token");
+      setIsAuthenticated(false)
+      setAuthUser({})
+
       toast.success("Logout successfully");
 
       navigate("/");
