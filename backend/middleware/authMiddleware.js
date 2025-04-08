@@ -12,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
         return res.status(401).json({ error: "Invalid Token" });
       }
 
-      const user = await User.findOne({ email: decoded.email });
+      const user = await User.findOne({ _id: decoded.id });
       if(!user){
         return res.status(401).json({ error: "User Not Found" });
       }
