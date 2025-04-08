@@ -7,15 +7,19 @@ const Profile = () => {
   const [user, setUser] = useState({});
   const logout = async () => {
     try {
+      const token = localStorage.getItem("token") || null
       const sending = await fetch("http://localhost:3000/api/logout", {
         method: "POST",
-        credentials: "include",
+        headers:{
+          Authorization: `Bearer ${token}`,
+        }
       });
       if (!sending.ok) {
         toast.error("Logout failed");
         return;
       }
       setUser(null);
+      localStorage.removeItem("token");
       toast.success("Logout successfully");
 
       navigate("/");
@@ -25,9 +29,13 @@ const Profile = () => {
   };
   const fetchData = async () => {
     try {
+      const token = localStorage.getItem("token") || null;
+      console.log(token);
       const sending = await fetch("http://localhost:3000/api/profile", {
         method: "GET",
-        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       const response = await sending.json();
       if (!sending.ok) {

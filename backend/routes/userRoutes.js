@@ -10,6 +10,6 @@ router.get("/profile",authMiddleware, (req, res)=>{
     return res.json(req.user) // req.user  set by  middleware
 })
 router.post("/logout",authMiddleware,(req,res)=>{
-    return res.clearCookie("token",{ httpOnly: true}).json({msg:"Logout successfully"})
+    return res.status(200).json({msg:"Logout successfully"})
 })
 export default router;

@@ -45,9 +45,8 @@ export async function login(req, res) {
       return res.status(400).json({ error: "Invalid Credentials." });
     }
     const token = jwt.sign({id:user._id}, process.env.JWT_SECRET, {expiresIn:'1d'});
-    // { httpOnly: true } ensures that the cookie cannot be accessed via JavaScript on the client side. This enhances security by preventing Cross-Site Scripting (XSS) attacks from stealing the token.
-    // secure: true => secure: true
-    return res.status(200).cookie("token",token,{httpOnly: true, secure: true,}).json({ msg: "Login Successfully",token });
+    
+    return res.status(200).json({ msg: "Login Successfully",token:token });
   } catch (error) {
     return res.status(500).json({ error: `error : ${error}` });
   }

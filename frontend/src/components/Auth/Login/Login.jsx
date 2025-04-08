@@ -33,8 +33,6 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        // Sends cookies (needed for sessions & authentication).
-        credentials: "include",
         body: JSON.stringify(data),
       });
 
@@ -46,8 +44,8 @@ const Login = () => {
         toast.error(res.error);
         return;
       }
-
-      console.log(sending);
+      const token = res.token
+      localStorage.setItem("token",token)
       toast.success("Your are Login Successfully.");
       navigate("/");
     } catch (error) {
