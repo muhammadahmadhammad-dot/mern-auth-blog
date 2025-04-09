@@ -4,34 +4,16 @@ import { toast } from "react-toastify";
 import UserContext from "../../context/UserContext";
 
 const Profile = () => {
-  const {setIsAuthenticated,setAuthUser} = useContext(UserContext)
+  const {setIsAuthenticated,isAuthenticated, setAuthUser,logout} = useContext(UserContext)
   const navigate = useNavigate();
   const [user, setUser] = useState({});
-  const logout = async () => {
-    try {
-      const token = localStorage.getItem("token") || null
-      const sending = await fetch("http://localhost:3000/api/logout", {
-        method: "POST",
-        headers:{
-          Authorization: `Bearer ${token}`,
-        }
-      });
-      if (!sending.ok) {
-        toast.error("Logout failed");
-        return;
-      }
-      setUser(null);
-      localStorage.removeItem("token");
-      setIsAuthenticated(false)
-      setAuthUser({})
+  
 
-      toast.success("Logout successfully");
-
-      navigate("/");
-    } catch (error) {
-      console.log("error : ", error);
+  useEffect(()=>{
+    if(!isAuthenticated){
+      navigate("/login")
     }
-  };
+  },[isAuthenticated,navigate])
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("token") || null;
