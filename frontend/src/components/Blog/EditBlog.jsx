@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { TextInput } from "../Auth/TextInput";
 import Textarea from "../Form/Textarea";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { toast } from "react-toastify";
 
 const EditBlog = () => {
   const [blog, setBlog] = useState({});
+  const navigate = useNavigate();
   const params = useParams();
   const { id } = params;
   const fetchBlog = async (id) => {
     try {
       const sending = await fetch(`http://localhost:3000/api/blog/${id}`);
       const blog = await sending.json();
-      setBlog(blog);
+      setBlog(blog.blog);
+      console.log(blog.blog)
     } catch (error) {
       console.log(`ERROR ${error}`);
     }
@@ -33,19 +36,52 @@ const EditBlog = () => {
     shortDescription:  blog?.shortDescription || "",
     description:  blog?.description || "",
   });
-
   const handelData = (e)=>{
     const name = e.target.name;
     const value = e.target.value;
 
     setData((pre) => ({...pre, [name]:value}))
   }
+  useEffect(() => {
+    if (blog) {
+      setData({
+        title: blog?.title || "",
+        shortDescription: blog?.shortDescription || "",
+        description: blog?.description || "",
+      });
+    }
+  }, [blog]);
+
+  const handelSubmit =async (e) => {
+    e.preventDefault()
+       const token = localStorage.getItem("token") || null
+        try {
+          const sending = await fetch(`http://localhost:3000/api/update-blog/${id}`,{
+            method:"PUT",
+            headers:{
+              Authorization:`Bearer ${token}`,
+              "Content-Type":"application/json"
+            },
+            body:JSON.stringify(data)
+          });
+          const res = await sending.json();
+          if(!sending.ok){
+            setError(res.errors || initialErrors)
+            toast.error(res.error)
+            return;
+          }
+          toast.success(res.message);
+          navigate('/blog')
+        } catch (error) {
+          console.log(`ERROR ${error}`);
+        }
+  }
   return (
     <div className="block w-2/3 mx-auto p-6 mt-5">
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         Edit Blog
       </h5>
-      <form>
+      <form onSubmit={handelSubmit}>
         <TextInput
           label="Title"
           error={error.title}

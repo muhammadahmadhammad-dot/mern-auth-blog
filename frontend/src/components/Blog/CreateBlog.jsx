@@ -44,8 +44,8 @@ const CreateBlog = () => {
         toast.error(res.error)
         return;
       }
-      toast.success(res.msg);
-      navigate('/')
+      toast.success(res.message);
+      navigate('/blog')
     } catch (error) {
       console.log(`ERROR ${error}`);
     }

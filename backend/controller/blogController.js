@@ -43,7 +43,7 @@ export const create = async (req, res) => {
 
     return res
       .status(201)
-      .json({ msg: "Blog Saved successfully", blog: saveBlog });
+      .json({ message: "Blog Saved successfully", blog: saveBlog });
   } catch (error) {
     return res.status(500).json({ error: `error : ${error}` });
   }
@@ -61,7 +61,27 @@ export const blog = async (req,res) => {
         return res.status(500).json({ error: `error : ${error}` });
       }
 };
-export const update = async (req,res) => {};
+export const update = async (req,res) => {
+  try {
+
+    const {id} = req.params;
+    const userId = req.user.id;
+
+    const { data, error } = blogValidatedScheme.safeParse(req.body);
+    if (error) {
+      return res.status(400).json({ errors: error.format() });
+    }
+
+    const blog = await blogModel.findOneAndUpdate({_id:id,userId},data);
+    if(!blog){
+        return res.status(404).json({ message: "Not found"}); 
+    }
+    return res.status(200).json({ message: "Your Blog is updated successfully", blog}); 
+
+  } catch (error) {
+    return res.status(500).json({ error: `error : ${error}` });
+  }
+};
 export const deleteBlog = async (req,res) => {
     try {
         const {id} = req.params;
