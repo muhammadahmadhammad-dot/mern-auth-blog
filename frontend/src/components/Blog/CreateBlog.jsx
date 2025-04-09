@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { TextInput } from "../Auth/TextInput";
 import Textarea from "../Form/Textarea";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const CreateBlog = () => {
+  const navigate = useNavigate();
   const initialErrors = {
     title: "",
     shortDescription: "",
@@ -22,12 +25,37 @@ const CreateBlog = () => {
 
     setData((pre) => ({...pre, [name]:value}))
   }
+
+  const handelSubmit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token") || null
+    try {
+      const sending = await fetch(`http://localhost:3000/api/create-blog`,{
+        method:"POST",
+        headers:{
+          Authorization:`Bearer ${token}`,
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+      });
+      const res = await sending.json();
+      if(!sending.ok){
+        setError(res.errors || initialErrors)
+        toast.error(res.error)
+        return;
+      }
+      toast.success(res.msg);
+      navigate('/')
+    } catch (error) {
+      console.log(`ERROR ${error}`);
+    }
+  };
   return (
     <div className="block w-2/3 mx-auto p-6 mt-5">
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         Create Blog
       </h5>
-      <form>
+      <form onSubmit={handelSubmit}>
         <TextInput
           label="Title"
           error={error.title}

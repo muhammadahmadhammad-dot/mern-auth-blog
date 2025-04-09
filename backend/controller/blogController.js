@@ -1,5 +1,5 @@
-import blogModel from "../model/blogModel";
-import { blogValidatedScheme } from "../validation/blogValidate";
+import blogModel from "../model/blogModel.js";
+import { blogValidatedScheme } from "../validation/blogValidate.js";
 
 export const blogs = async (req, res) => {
   try {

@@ -1,8 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextInput } from "../Auth/TextInput";
 import Textarea from "../Form/Textarea";
+import { useParams } from "react-router";
 
 const EditBlog = () => {
+  const [blog, setBlog] = useState({});
+  const params = useParams();
+  const { id } = params;
+  const fetchBlog = async (id) => {
+    try {
+      const sending = await fetch(`http://localhost:3000/api/blog/${id}`);
+      const blog = await sending.json();
+      setBlog(blog);
+    } catch (error) {
+      console.log(`ERROR ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlog(id);
+  }, [id]);
+
   const initialErrors = {
     title: "",
     shortDescription: "",
@@ -11,9 +29,9 @@ const EditBlog = () => {
 
   const [error, setError] = useState(initialErrors);
   const [data, setData] = useState({
-    title: "",
-    shortDescription: "",
-    description: "",
+    title: blog?.title || "",
+    shortDescription:  blog?.shortDescription || "",
+    description:  blog?.description || "",
   });
 
   const handelData = (e)=>{

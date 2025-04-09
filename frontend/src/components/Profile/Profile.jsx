@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import UserContext from "../../context/UserContext";
 
 const Profile = () => {
-  const {setIsAuthenticated,isAuthenticated, setAuthUser,logout} = useContext(UserContext)
+  const {isAuthenticated, logout} = useContext(UserContext)
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   

@@ -1,6 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 
 const MyBlog = () => {
+      const [blogs,setBlogs]=useState([]);
+    
+      const fetchBlogs = async () => {
+        try {
+            const token = localStorage.getItem("token") || null
+          const sending = await fetch("http://localhost:3000/api/my-blogs",{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
+          });
+          const blogs = await sending.json()
+          setBlogs(blogs.blogs)
+          
+        } catch (error) {
+          console.log(`ERROR ${error}`)
+        }
+    
+      }
+    
+      useEffect(()=>{
+        fetchBlogs()
+      },[])
   return (
     <div className='w-2/3 mx-auto p-6 mt-5'>
         <div className="grid grid-cols-2 my-2">
@@ -8,7 +31,7 @@ const MyBlog = () => {
                 <h2 className='text-white font-medium text-2xl'>Your Blogs</h2>
             </div>
             <div className='flex justify-end'>
-                <a className='px-3 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer'>Create</a>
+                <Link to={"create"} className='px-3 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer'>Create</Link>
 
             </div>
         </div>
@@ -27,18 +50,21 @@ const MyBlog = () => {
                 </tr>
             </thead>
             <tbody>
+                { blogs && blogs.map((blog)=>(
                 <tr className='border-b text-center bg-gray-800 border-gray-200'>
                     <td className='px-6 py-3 text-white'>
-                        jkvbdjkbvdnv
+                        {blog.title}
                     </td>
                     <td className='px-6 py-3 text-gray-400'>
-                        jkvbdjkbvdnv
+                        {blog.shortDescription}
                     </td>
                     <td className='px-6 py-3 text-gray-400'>
                         <a className='px-3 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer'>Edit</a>
                         <a className='px-3 ms-2 py-2 bg-red-700 text-white rounded hover:bg-red-800 cursor-pointer'>Delete</a>
                     </td>
                 </tr>
+
+                ))}
             </tbody>
         </table>
     </div>

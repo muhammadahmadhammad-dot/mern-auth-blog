@@ -7,7 +7,7 @@ function App() {
     try {
       const sending = await fetch("http://localhost:3000/api/blogs");
       const blogs = await sending.json()
-      setBlogs(blogs)
+      setBlogs(blogs.blogs)
       
     } catch (error) {
       console.log(`ERROR ${error}`)
