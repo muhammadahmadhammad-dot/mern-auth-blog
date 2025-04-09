@@ -8,7 +8,7 @@ const MyBlog = () => {
                 <h2 className='text-white font-medium text-2xl'>Your Blogs</h2>
             </div>
             <div className='flex justify-end'>
-                <a className='px-3 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer'>Edit</a>
+                <a className='px-3 py-2 bg-blue-700 text-white rounded hover:bg-blue-800 cursor-pointer'>Create</a>
 
             </div>
         </div>
