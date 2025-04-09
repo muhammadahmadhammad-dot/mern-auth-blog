@@ -1,6 +1,18 @@
 import blogModel from "../model/blogModel";
 import { blogValidatedScheme } from "../validation/blogValidate";
 
+export const blogs = async (req, res) => {
+  try {
+    const blogs = await blogModel.find();
+    if(!blogs || blogs.length == 0){
+        return res.status(404).json({ message: "Not found", blogs:[] }); 
+    }
+    return res.status(200).json({ message: "All Blogs", blogs}); 
+
+  } catch (error) {
+    return res.status(500).json({ error: `error : ${error}` });
+  }
+};
 export const myBlogs = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -39,8 +51,7 @@ export const create = async (req, res) => {
 export const blog = async (req,res) => {
     try {
         const {id} = req.params;
-        const userId = req.user.id;
-        const blog = await blogModel.findOne({_id:id,userId});
+        const blog = await blogModel.findOne({_id:id});
         if(!blog){
             return res.status(404).json({ message: "Not found"}); 
         }

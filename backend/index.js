@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import router from "./routes/userRoutes.js";
 
 import cookieParser from "cookie-parser";
+import blogRouter from "./routes/blogRoutes.js";
 
 const app = express();
 
@@ -26,5 +27,6 @@ mongoose
   .catch((error) => console.log(error));
 
 app.use("/api", router);
+app.use("/api", blogRouter);
 
 app.listen(process.env.PORT, () => console.log("Server is running"));

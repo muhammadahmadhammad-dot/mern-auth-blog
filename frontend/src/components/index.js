@@ -5,8 +5,10 @@ import Layout from "../Layout.jsx";
 import Profile from "./Profile/Profile.jsx";
 import CreateBlog from "./Blog/CreateBlog.jsx";
 import MyBlog from "./Blog/MyBlog.jsx";
+import EditBlog from "./Blog/EditBlog.jsx";
+import Blog from "./Blog/Blog.jsx";
 
-export  {Login, Register, Layout, Profile,CreateBlog, MyBlog}
+export  {Login, Register,Blog, Layout,EditBlog, Profile,CreateBlog, MyBlog}
 
 
 
