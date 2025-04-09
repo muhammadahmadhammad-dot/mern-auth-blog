@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import UserContext from '../../context/UserContext';
 
 const MyBlog = () => {
       const [blogs,setBlogs]=useState([]);
-    
+      const {isAuthenticated} = useContext(UserContext)
+      const navigate = useNavigate();
       const fetchBlogs = async () => {
         try {
             const token = localStorage.getItem("token") || null
@@ -23,8 +25,9 @@ const MyBlog = () => {
       }
     
       useEffect(()=>{
-        fetchBlogs()
-      },[])
+        isAuthenticated ? fetchBlogs() : navigate("/login")
+        
+      },[isAuthenticated,navigate])
 
       const deleteBlog = async (id) => {
         try {

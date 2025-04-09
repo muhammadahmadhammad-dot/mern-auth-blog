@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TextInput } from "../Auth/TextInput";
 import Textarea from "../Form/Textarea";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
+import UserContext from "../../context/UserContext";
 
 const CreateBlog = () => {
   const navigate = useNavigate();
+  const {isAuthenticated} = useContext(UserContext)
   const initialErrors = {
     title: "",
     shortDescription: "",
@@ -50,6 +52,11 @@ const CreateBlog = () => {
       console.log(`ERROR ${error}`);
     }
   };
+  useEffect(()=>{
+    if(!isAuthenticated){
+      navigate("/login")
+    }
+  },[isAuthenticated,navigate])
   return (
     <div className="block w-2/3 mx-auto p-6 mt-5">
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

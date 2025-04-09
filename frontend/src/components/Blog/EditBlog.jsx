@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TextInput } from "../Auth/TextInput";
 import Textarea from "../Form/Textarea";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
+import UserContext from "../../context/UserContext";
 
 const EditBlog = () => {
   const [blog, setBlog] = useState({});
   const navigate = useNavigate();
+  const {isAuthenticated} = useContext(UserContext); 
   const params = useParams();
   const { id } = params;
   const fetchBlog = async (id) => {
@@ -21,8 +23,9 @@ const EditBlog = () => {
   };
 
   useEffect(() => {
-    fetchBlog(id);
-  }, [id]);
+    isAuthenticated ? fetchBlog(id) : navigate("/login")
+   
+  }, [id,navigate,isAuthenticated]);
 
   const initialErrors = {
     title: "",
