@@ -3,6 +3,24 @@ import bycrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { loginScheme, registerScheme } from "../validation/authValidate.js";
 
+
+export const usersName = async (req, res) => {
+  try {
+
+
+    const users =await User.find().select('_id fname lname');
+    if(!users  || users.length === 0){
+      return res
+      .status(400)
+      .json({ error: "Users Not Found!" });
+    }
+    return res
+      .status(201)
+      .json({ messages: "All Users Name!", users: users });
+  } catch (error) {
+    return res.status(500).json({ error: `error : ${error}` });
+  }
+}
 export async function register(req, res) {
   try {
     const {data, error} = registerScheme.safeParse( req.body)

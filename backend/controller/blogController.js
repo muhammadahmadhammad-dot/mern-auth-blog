@@ -1,4 +1,5 @@
 import blogModel from "../model/blogModel.js";
+import userModel from "../model/userModel.js";
 import { blogValidatedScheme } from "../validation/blogValidate.js";
 
 export const blogs = async (req, res) => {
@@ -21,6 +22,44 @@ export const myBlogs = async (req, res) => {
         return res.status(404).json({ message: "Not found", blogs:[] }); 
     }
     return res.status(200).json({ message: "Your Blogs", blogs}); 
+
+  } catch (error) {
+    return res.status(500).json({ error: `error : ${error}` });
+  }
+};
+export const searchBlogs = async (req, res) => {
+  try {
+    const {search} = req.params; //search item
+    // $regex allows partial and case-insensitive matching ($options: 'i').
+    // $or check any of the given fields for match.
+    const blogs = await blogModel.find({
+      $or: [
+        { title: { $regex: search, $options: 'i' } },
+        { shortDescription: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+      ]
+    });
+    if(!blogs || blogs.length == 0){
+        return res.status(404).json({ message: "Not found", blogs:[] }); 
+    }
+    return res.status(200).json({ message: `Search Blogs`, blogs}); 
+
+  } catch (error) {
+    return res.status(500).json({ error: `error : ${error}` });
+  }
+};
+export const authorBlogs = async (req, res) => {
+  try {
+    const {id} = req.params; //author id
+    const user = await userModel.find({_id:id}).select('_id fname lname');
+    if (!user) {
+      return res.status(404).json({ message: "Author not found"}); 
+    }
+    const blogs = await blogModel.find({userId:id});
+    if(!blogs || blogs.length == 0){
+        return res.status(404).json({ message: "Not found", blogs:[] }); 
+    }
+    return res.status(200).json({ message: `Author Blogs`, blogs,user}); 
 
   } catch (error) {
     return res.status(500).json({ error: `error : ${error}` });

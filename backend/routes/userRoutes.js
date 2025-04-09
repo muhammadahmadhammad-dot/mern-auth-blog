@@ -1,9 +1,10 @@
 import express from "express"
-import { login, register } from "../controller/userController.js";
+import { login, register,usersName } from "../controller/userController.js";
 import authMiddleware from "../middleware/authMiddleware.js"
 
 const router = express.Router();
 
+router.get("/all-users-name",usersName)
 router.post("/login-check",login) 
 router.post("/register",register)
 router.get("/profile",authMiddleware, (req, res)=>{
