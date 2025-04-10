@@ -72,11 +72,13 @@ export const create = async (req, res) => {
       return res.status(400).json({ errors: error.format() });
     }
     const validated = data;
+    const image = req.file
     const newBlog = new blogModel({
       title: validated.title,
       shortDescription: validated.shortDescription,
       description: validated.description,
       userId: req.user.id,
+      featureImage:image.filename,
     });
     const saveBlog = await newBlog.save();
 

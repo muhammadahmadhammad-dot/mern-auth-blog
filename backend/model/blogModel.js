@@ -17,6 +17,10 @@ const BlogScheme = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
         required:true,
+    },
+    featureImage:{
+        type:String,
+        required:true,
     }
 })
 // BlogScheme is a blueprint

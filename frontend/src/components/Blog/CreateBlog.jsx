@@ -19,6 +19,7 @@ const CreateBlog = () => {
     title: "",
     shortDescription: "",
     description: "",
+    image: null,
   });
 
   const handelData = (e)=>{
@@ -27,18 +28,32 @@ const CreateBlog = () => {
 
     setData((pre) => ({...pre, [name]:value}))
   }
+  const handleFileChnage = (e) => {
+    if(e.target.files && e.target.files[0]){
+      setData((prev) => ({...prev, image:e.target.files[0]}))
+    }
+  }
 
   const handelSubmit = async (e) => {
     e.preventDefault();
+
+    // FormData is useful for upload files/images and combine text and files fields in a single request
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('shortDescription', data.shortDescription);
+    formData.append('description', data.description);
+    if(data.image) formData.append('image', data.image)
+
     const token = localStorage.getItem("token") || null
     try {
       const sending = await fetch(`http://localhost:3000/api/create-blog`,{
         method:"POST",
         headers:{
           Authorization:`Bearer ${token}`,
-          "Content-Type":"application/json"
+          // "Content-Type":"application/json" // no need in FormData
         },
-        body:JSON.stringify(data)
+        // body:JSON.stringify(data) // no need in FormData
+        body:formData
       });
       const res = await sending.json();
       if(!sending.ok){
@@ -62,7 +77,7 @@ const CreateBlog = () => {
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         Create Blog
       </h5>
-      <form onSubmit={handelSubmit}>
+      <form onSubmit={handelSubmit} encType="multipart/form-data">
         <TextInput
           label="Title"
           error={error.title}
@@ -93,6 +108,7 @@ const CreateBlog = () => {
           rows={4}
           value={data.description}
         />
+        <input type="file" name="image" accept="image/*" onChange={handleFileChnage} />
           <button
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

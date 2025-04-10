@@ -26,6 +26,8 @@ mongoose
   .then(() => console.log("DB is connected"))
   .catch((error) => console.log(error));
 
+app.use('/api/uploads', express.static('uploads'))
+
 app.use("/api", router);
 app.use("/api", blogRouter);
 
