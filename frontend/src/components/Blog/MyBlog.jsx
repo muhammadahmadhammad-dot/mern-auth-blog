@@ -70,7 +70,7 @@ const MyBlog = () => {
                         Title
                     </th>
                     <th className='px-6 py-3'>
-                        Short Description
+                        Status
                     </th>
                     <th className='px-6 py-3'>
                     Action
@@ -84,7 +84,11 @@ const MyBlog = () => {
                         {blog.title}
                     </td>
                     <td className='px-6 py-3 text-gray-400'>
-                        {blog.shortDescription}
+                        {blog.published && blog.published ? (
+                          <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">Active</span>
+                        ) : (
+                          <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">In Active</span>
+                        ) }
                     </td>
                     <td className='px-6 py-3 text-gray-400'>
                         <Link to={blog._id} className='px-3 py-2 bg-yellow-700 text-white rounded hover:bg-yellow-800 cursor-pointer'>View</Link>

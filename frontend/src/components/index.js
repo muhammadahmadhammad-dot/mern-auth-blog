@@ -7,8 +7,9 @@ import CreateBlog from "./Blog/CreateBlog.jsx";
 import MyBlog from "./Blog/MyBlog.jsx";
 import EditBlog from "./Blog/EditBlog.jsx";
 import Blog from "./Blog/Blog.jsx";
+import ShowBlog from "./Blog/ShowBlog.jsx";
 
-export  {Login, Register,Blog, Layout,EditBlog, Profile,CreateBlog, MyBlog}
+export  {Login, Register,Blog,ShowBlog, Layout,EditBlog, Profile,CreateBlog, MyBlog}
 
 
 

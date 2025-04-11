@@ -9,7 +9,7 @@ import {
   RouterProvider,
 } from "react-router";
 import { ToastContainer } from "react-toastify";
-import { Profile,EditBlog,Blog, Layout, CreateBlog, Register, Login,MyBlog } from "./components";
+import { Profile,EditBlog,Blog, Layout, CreateBlog, Register, Login,MyBlog, ShowBlog } from "./components";
 import UserContextProvider from "./context/UserContextProvider.jsx";
 
 const router = createBrowserRouter(
@@ -21,7 +21,8 @@ const router = createBrowserRouter(
       <Route path="profile" element={<Profile />} />
       <Route path="blog">
         <Route path="" element={<MyBlog />} />
-        <Route path=":id" element={<Blog />} />
+        <Route path=":id" element={<ShowBlog />} />
+        <Route path="slug/:slug" element={<Blog />} />
         <Route path="create" element={<CreateBlog />} />
         <Route path="edit/:id" element={<EditBlog />} />
       </Route>

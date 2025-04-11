@@ -5,6 +5,11 @@ const BlogScheme = new mongoose.Schema({
         type:String,
         required:true,
     },
+    slug:{
+        type:String,
+        required:true,
+        unique:true,
+    },
     shortDescription:{
         type:String,
         required:true,
@@ -21,6 +26,11 @@ const BlogScheme = new mongoose.Schema({
     featureImage:{
         type:String,
         required:true,
+    },
+    published:{
+        type:Boolean,
+        required:true,
+        default:true,
     }
 })
 // BlogScheme is a blueprint
