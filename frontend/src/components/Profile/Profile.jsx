@@ -46,13 +46,14 @@ const Profile = () => {
         </h5>
       </a>
       <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-        <button onClick={logout} className="bg-red-500 text-white px-3 py-2">
-          Logout
-        </button>
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero, quod
         adipisci deserunt enim omnis veniam ipsum expedita? Laudantium est ipsum
         cum atque sint magnam ullam cupiditate quae iure! Dolorem, sequi!
       </p>
+        
+        <button onClick={logout} className="bg-red-500 text-white px-3 py-2">
+          Logout
+        </button>
     </div>
   );
 };
